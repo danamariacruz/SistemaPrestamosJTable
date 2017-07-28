@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Prestamos ";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<h2>Prestamos</h2>
+
+<div id="TablaPrestamo" style="width: auto; margin:auto;"></div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //Prepare jtable plugin
+        $('#TablaPrestamo').jtable({
+            title: 'Listado de Prestamos',
+            actions: {
+                listAction: '/Prestamo/ListadoPrestamos',
+                createAction: '/Prestamo/CrearPrestamos',
+                updateAction: '/Prestamo/ModificarPrestamo',
+                deleteAction: '/Prestamo/EliminarPrestamo'
+            },
+            fields: {
+                PrestamoID: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                NombreCliente: {
+                    title: 'Cliente ID',
+                    width: '15%',
+                    list: true
+                },
+                Cantidad: {
+                    title: 'Cantidad Prestada',
+                    width: '25%',
+                    list: true
+                },
+                Interes: {
+                    title: 'Interes',
+                    width: '15%',
+                    list: true
+                },
+                Plazo: {
+                    title: 'Plazo',
+                    width: '15%',
+                    list: true
+                },
+                Cuota: {
+                    title: 'Cuota',
+                    width: '15%',
+                    list: true
+                },
+                inicioPrestamo: {
+                    title: 'Inicio del prestamos',
+                    width: '30%',
+                    list: true
+                }
+            }
+        });
+
+        //Load person list from server
+        $('#TablaPrestamo').jtable('load');
+    });
+
+</script>
+<div>
+    @Html.ActionLink("Ver Clientes", "Index", "Cliente")
+</div>

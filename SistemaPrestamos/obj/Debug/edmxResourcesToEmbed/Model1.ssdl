@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PrestamosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Clientes">
+    <Key>
+      <PropertyRef Name="ClienteID" />
+    </Key>
+    <Property Name="ClienteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Apellido" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Telefono" Type="nvarchar(max)" />
+    <Property Name="Correo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Direccion" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Prestamoes">
+    <Key>
+      <PropertyRef Name="PrestamoID" />
+    </Key>
+    <Property Name="PrestamoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Plazo" Type="int" Nullable="false" />
+    <Property Name="Interes" Type="float" Nullable="false" />
+    <Property Name="CantidadPrestada" Type="float" Nullable="false" />
+    <Property Name="Cuota" Type="float" Nullable="false" />
+    <Property Name="IniciodePrestamo" Type="datetime" Nullable="false" />
+    <Property Name="IdCliente" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_Prestamoes_dbo_Clientes_IdCliente">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Prestamoes" Type="Self.Prestamoes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="ClienteID" />
+      </Principal>
+      <Dependent Role="Prestamoes">
+        <PropertyRef Name="IdCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PrestamosDBModelStoreContainer">
+    <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Prestamoes" EntityType="Self.Prestamoes" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_Prestamoes_dbo_Clientes_IdCliente" Association="Self.FK_dbo_Prestamoes_dbo_Clientes_IdCliente">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="Prestamoes" EntitySet="Prestamoes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

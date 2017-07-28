@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PrestamosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Clientes">
+    <Key>
+      <PropertyRef Name="ClienteID" />
+    </Key>
+    <Property Name="ClienteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Apellido" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Telefono" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Correo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Prestamoes" Relationship="Self.FK_dbo_Prestamoes_dbo_Clientes_IdCliente" FromRole="Clientes" ToRole="Prestamoes" />
+  </EntityType>
+  <EntityType Name="Prestamoes">
+    <Key>
+      <PropertyRef Name="PrestamoID" />
+    </Key>
+    <Property Name="PrestamoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Plazo" Type="Int32" Nullable="false" />
+    <Property Name="Interes" Type="Double" Nullable="false" />
+    <Property Name="CantidadPrestada" Type="Double" Nullable="false" />
+    <Property Name="Cuota" Type="Double" Nullable="false" />
+    <Property Name="IniciodePrestamo" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IdCliente" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Clientes" Relationship="Self.FK_dbo_Prestamoes_dbo_Clientes_IdCliente" FromRole="Prestamoes" ToRole="Clientes" />
+  </EntityType>
+  <Association Name="FK_dbo_Prestamoes_dbo_Clientes_IdCliente">
+    <End Role="Clientes" Type="Self.Clientes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Prestamoes" Type="Self.Prestamoes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clientes">
+        <PropertyRef Name="ClienteID" />
+      </Principal>
+      <Dependent Role="Prestamoes">
+        <PropertyRef Name="IdCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SistemaPrestamos" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Clientes" EntityType="Self.Clientes" />
+    <EntitySet Name="Prestamoes" EntityType="Self.Prestamoes" />
+    <AssociationSet Name="FK_dbo_Prestamoes_dbo_Clientes_IdCliente" Association="Self.FK_dbo_Prestamoes_dbo_Clientes_IdCliente">
+      <End Role="Clientes" EntitySet="Clientes" />
+      <End Role="Prestamoes" EntitySet="Prestamoes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
